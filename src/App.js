@@ -29,8 +29,8 @@ const App = () => {
           <div className="list-content">
             <div className="goods-list">
               {/* 外卖商品列表 */}
-              {foodsList.map((item) => {
-                return (
+              {foodsList && foodsList.length > 0 ? (
+                foodsList.map((item) => (
                   <FoodsCategory
                     key={item.tag}
                     // 列表标题
@@ -38,8 +38,10 @@ const App = () => {
                     // 列表商品
                     foods={item.foods}
                   />
-                );
-              })}
+                ))
+              ) : (
+                <p>Loading...</p>
+              )}
             </div>
           </div>
         </div>

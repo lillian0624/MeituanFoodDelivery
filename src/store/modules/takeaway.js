@@ -14,11 +14,15 @@ const foodsStore = createSlice({
 });
 
 const { setFoodList } = foodsStore.actions;
+
 const fetchFoodsList = () => {
   return async (dispatch) => {
-    const res = axios.get("http://localhost:3004/takeaway");
-
-    dispatch(setFoodList(res.data));
+    try {
+      const res = await axios.get("http://localhost:3004/takeaway");
+      dispatch(setFoodList(res.data));
+    } catch (error) {
+      console.error("Failed to fetch foods list:", error);
+    }
   };
 };
 
