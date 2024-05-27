@@ -5,15 +5,19 @@ const foodsStore = createSlice({
   name: "foods",
   initialState: {
     foodsList: [],
+    activeIndex: 0,
   },
   reducers: {
     setFoodList(state, action) {
       state.foodsList = action.payload;
     },
+    changeActiveIndex(state, action) {
+      state.activeIndex = action.payload;
+    },
   },
 });
 
-const { setFoodList } = foodsStore.actions;
+const { setFoodList, changeActiveIndex } = foodsStore.actions;
 
 const fetchFoodsList = () => {
   return async (dispatch) => {
@@ -26,6 +30,6 @@ const fetchFoodsList = () => {
   };
 };
 
-export { fetchFoodsList };
+export { fetchFoodsList, changeActiveIndex };
 const reducers = foodsStore.reducer;
 export default reducers;
