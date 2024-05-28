@@ -14,7 +14,7 @@ const App = () => {
     dispatch(fetchFoodsList());
   }, [dispatch]);
 
-  const { foodsList } = useSelector((state) => state.foods);
+  const { foodsList, activeIndex } = useSelector((state) => state.foods);
 
   return (
     <div className="home">
@@ -30,15 +30,18 @@ const App = () => {
             <div className="goods-list">
               {/* 外卖商品列表 */}
               {foodsList && foodsList.length > 0 ? (
-                foodsList.map((item) => (
-                  <FoodsCategory
-                    key={item.tag}
-                    // 列表标题
-                    name={item.name}
-                    // 列表商品
-                    foods={item.foods}
-                  />
-                ))
+                foodsList.map(
+                  (item, index) =>
+                    activeIndex === index && (
+                      <FoodsCategory
+                        key={item.tag}
+                        // 列表标题
+                        name={item.name}
+                        // 列表商品
+                        foods={item.foods}
+                      />
+                    )
+                )
               ) : (
                 <p>Loading...</p>
               )}
