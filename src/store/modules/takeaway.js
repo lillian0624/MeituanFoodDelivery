@@ -6,6 +6,7 @@ const foodsStore = createSlice({
   initialState: {
     foodsList: [],
     activeIndex: 0,
+    cartList: [],
   },
   reducers: {
     setFoodList(state, action) {
@@ -14,22 +15,31 @@ const foodsStore = createSlice({
     changeActiveIndex(state, action) {
       state.activeIndex = action.payload;
     },
+    addCart(state, action) {
+      const item = state.cartList.find((item) => item.id === action.payload.id);
+      if (item) {
+        item.count++;
+      } else {
+        state.cartList.push({ ...action.payload, count: 1 });
+      }
+    },
   },
 });
 
-const { setFoodList, changeActiveIndex } = foodsStore.actions;
+const { setFoodList, changeActiveIndex, addCart } = foodsStore.actions;
 
 const fetchFoodsList = () => {
   return async (dispatch) => {
     try {
       const res = await axios.get("http://localhost:3004/takeaway");
-      dispatch(setFoodList(res.data));
+      const foodsWithCount = res.data.map((food) => ({ ...food, count: 1 }));
+      dispatch(setFoodList(foodsWithCount));
     } catch (error) {
       console.error("Failed to fetch foods list:", error);
     }
   };
 };
 
-export { fetchFoodsList, changeActiveIndex };
+export { fetchFoodsList, changeActiveIndex, addCart };
 const reducers = foodsStore.reducer;
 export default reducers;
